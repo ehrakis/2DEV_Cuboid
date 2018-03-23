@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PaveRotationScript : MonoBehaviour {
 
-    public Transform parent;
+    private GameObject parent;
 
     private int State = 1;
     public int DeplacementNumber = 0;
@@ -83,17 +83,24 @@ public class PaveRotationScript : MonoBehaviour {
         }
     }
 
-    public void Rotate(Vector3 direction, Vector3 rotation)
+    private void InitParent(Vector3 direction)
     {
         float addValue;
+        parent = new GameObject("Rotation Point");
+        parent.transform.position = new Vector3(transform.position.x, 0, transform.position.z);
         addValue = ChooseAddValue(direction);
-        parent.Translate(direction * (addValue +0.5f));
-        transform.parent = parent;
-        transform.RotateAround(parent.position, rotation, 90);
-        transform.parent = null;
+        parent.transform.Translate(direction * (addValue + 0.5f));
+        transform.parent = parent.transform;
+    }
+
+    public void Rotate(Vector3 direction, Vector3 rotation)
+    {
+        InitParent(direction);
+        transform.RotateAround(parent.transform.position, rotation, 90);
         changeState(direction);
-        addValue = ChooseAddValue(direction);
-        parent.Translate(direction * (addValue + 0.5f));
+        transform.parent = null;
+        Destroy(parent);
+        changeState(direction);
         IncreaseMouvementNumber();
     }
 
