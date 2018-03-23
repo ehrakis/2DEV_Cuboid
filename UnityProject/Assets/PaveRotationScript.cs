@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class PaveRotationScript : MonoBehaviour {
 
-    private GameObject parent;
-
+    private Vector3 RotationPoint;
     private int State = 1;
-    public int DeplacementNumber = 0;
+    private int DeplacementNumber = 0;
     private float xSize = 0;
     private float zSize = 0;
 
@@ -83,29 +82,23 @@ public class PaveRotationScript : MonoBehaviour {
         }
     }
 
-    private void InitParent(Vector3 direction)
+    private void SetRotationPoint(Vector3 direction)
     {
-        float addValue;
-        parent = new GameObject("Rotation Point");
-        parent.transform.position = new Vector3(transform.position.x, 0, transform.position.z);
-        addValue = ChooseAddValue(direction);
-        parent.transform.Translate(direction * (addValue + 0.5f));
-        transform.parent = parent.transform;
+        RotationPoint = new Vector3(transform.position.x, 0, transform.position.z) + (direction * (ChooseAddValue(direction) + 0.5f));
     }
 
     public void Rotate(Vector3 direction, Vector3 rotation)
     {
-        InitParent(direction);
-        transform.RotateAround(parent.transform.position, rotation, 90);
+        SetRotationPoint(direction);
+        transform.RotateAround(RotationPoint, rotation, 90);
         changeState(direction);
-        transform.parent = null;
-        Destroy(parent);
         IncreaseMouvementNumber();
     }
 
     // Use this for initialization
     void Start () {
-	}
+        transform.parent = null;
+    }
 	
 	// Update is called once per frame
 	void Update () {
