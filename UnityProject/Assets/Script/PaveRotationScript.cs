@@ -9,6 +9,7 @@ public class PaveRotationScript : MonoBehaviour {
     private int DeplacementNumber = 0;
     private float xSize = 0;
     private float zSize = 0;
+    private int CollisionNumber = 0;
 
     public int GetState()
     {
@@ -89,10 +90,19 @@ public class PaveRotationScript : MonoBehaviour {
 
     public void Rotate(Vector3 direction, Vector3 rotation)
     {
+        CollisionNumber = 0;
         SetRotationPoint(direction);
         transform.RotateAround(RotationPoint, rotation, 90);
         changeState(direction);
         IncreaseMouvementNumber();
+    }
+
+    void OnCollisionEnter(Collision hit)
+    {
+        if (hit.gameObject.tag == "Tile")
+        {
+            CollisionNumber++;
+        }
     }
 
     // Use this for initialization
