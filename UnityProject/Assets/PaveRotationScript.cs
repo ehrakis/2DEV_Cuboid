@@ -6,9 +6,9 @@ public class PaveRotationScript : MonoBehaviour {
 
     public Transform parent;
 
-    public int state = 1;
-    private int xSize = 0;
-    private int zSize = 0;
+    private int state { get; set; }
+    private float xSize = 0;
+    private float zSize = 0;
 
     public void SetState(int value)
     {
@@ -21,14 +21,14 @@ public class PaveRotationScript : MonoBehaviour {
         else if (value == 2)
         {
             state = 2;
-            xSize = 1;
+            xSize = 0.5f;
             zSize = 0;
         }
         else if (value == 3)
         {
             state = 3;
             xSize = 0;
-            zSize = 1;
+            zSize = 0.5f;
         }
     }
 
@@ -42,60 +42,47 @@ public class PaveRotationScript : MonoBehaviour {
         {
             SetState(3);
         }
-        else if(state == 2 && (direction == Vector3.right || direction == Vector3.left))
+        else if((state == 2 && (direction == Vector3.right || direction == Vector3.left))|| (state == 3 && (direction == Vector3.forward || direction == Vector3.back)))
         {
             SetState(1);
         }
-        else if (state == 3 && (direction == Vector3.forward || direction == Vector3.back))
+    }
+
+    private float ChooseAddValue(Vector3 direction)
+    {
+        if (state != 1)
         {
-            SetState(1);
+            if (direction == Vector3.right || direction == Vector3.left)
+            {
+                return xSize;
+            }
+            else
+            {
+                return zSize;
+            }
+        }
+        else
+        {
+            return 0;
         }
     }
 
     public void Rotate(Vector3 direction, Vector3 rotation)
     {
         float addValue;
-        if (state != 1)
-        {
-            if((state == 2 && (direction == Vector3.right || direction == Vector3.left)) || (state == 3 && (direction == Vector3.forward || direction == Vector3.back)))
-            {
-                addValue = 0.5f;
-            }
-            else
-            {
-                addValue = 0f;
-            }
-        }
-        else
-        {
-            addValue = 0f;
-        }
+        addValue = ChooseAddValue(direction);
         parent.Translate(direction * (addValue +0.5f));
         transform.parent = parent;
         transform.RotateAround(parent.position, rotation, 90);
         transform.parent = null;
         changeState(direction);
-        if (state != 1)
-        {
-            if ((state == 2 && (direction == Vector3.right || direction == Vector3.left)) || (state == 3 && (direction == Vector3.forward || direction == Vector3.back)))
-            {
-                addValue = 0.5f;
-            }
-            else
-            {
-                addValue = 0f;
-            }
-        }
-        else
-        {
-            addValue = 0f;
-        }
+        addValue = ChooseAddValue(direction);
         parent.Translate(direction * (addValue + 0.5f));
     }
 
     // Use this for initialization
     void Start () {
-		
+        SetState(1);
 	}
 	
 	// Update is called once per frame
