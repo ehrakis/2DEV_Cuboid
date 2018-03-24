@@ -157,7 +157,7 @@ public class PaveRotationScript : MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	void Update () {
+    void Update () {
         if (Input.GetKeyDown(KeyCode.LeftArrow) && AllowInput)
         {
             Rotate(Vector3.left, new Vector3(0, 0, 1));
