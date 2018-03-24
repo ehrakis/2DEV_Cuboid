@@ -3,13 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PaveRotationScript : MonoBehaviour {
-
-    private Vector3 RotationPoint;
+    
+    /*
+     *The State property make it easy to track the cube position 
+     *so more easy to know wich rotation to apply on it
+     * 
+     * State 1 correspond to the vertical state 
+     * State 2 correspond to the horizontal state on the x axis
+     * State 3 correspond to the horizontal state on the z axis
+     */
     private int State = 1;
-    private int DeplacementNumber = 0;
     private float xSize = 0;
     private float zSize = 0;
+
+    /*
+    * The DeplacementNumber property is use to compute the score
+    */
+    private int DeplacementNumber = 0;
+
+    /*
+     * The CollisionNumber property is use to know if the cube is
+     * fully on a solid ground
+     */ 
     private int CollisionNumber = 0;
+
     private bool AllowInput = true;
     private int FrameWithoutContact = 0;
     private Vector3 LastMouvement;
@@ -67,6 +84,9 @@ public class PaveRotationScript : MonoBehaviour {
         }
     }
 
+    /*
+     * The addvalue is use to turn the cube whatever it's state is
+     */ 
     private float ChooseAddValue(Vector3 direction)
     {
         if (State != 1)
@@ -84,11 +104,6 @@ public class PaveRotationScript : MonoBehaviour {
         {
             return 0;
         }
-    }
-
-    private void SetRotationPoint(Vector3 direction)
-    {
-        RotationPoint = new Vector3(transform.position.x, 0, transform.position.z) + (direction * (ChooseAddValue(direction) + 0.5f));
     }
 
     public void Expulse()
@@ -132,13 +147,17 @@ public class PaveRotationScript : MonoBehaviour {
             FrameWithoutContact = 0;
         }
     }
+    
+    private Vector3 SetRotationPoint(Vector3 direction)
+    {
+        return new Vector3(transform.position.x, 0, transform.position.z) + (direction * (ChooseAddValue(direction) + 0.5f));
+    }
 
     public void Rotate(Vector3 direction, Vector3 rotation)
     {
         LastMouvement = direction;
         CollisionNumber = 0;
-        SetRotationPoint(direction);
-        transform.RotateAround(RotationPoint, rotation, 90);
+        transform.RotateAround(SetRotationPoint(direction), rotation, 90);
         changeState(direction);
         IncreaseMouvementNumber();
     }
