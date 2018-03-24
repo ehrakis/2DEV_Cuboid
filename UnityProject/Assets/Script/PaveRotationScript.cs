@@ -10,12 +10,9 @@ public class PaveRotationScript : MonoBehaviour {
     private float xSize = 0;
     private float zSize = 0;
     private int CollisionNumber = 0;
-<<<<<<< HEAD
     private bool AllowInput = true;
     private int FrameWithoutContact = 0;
     private Vector3 LastMouvement;
-=======
->>>>>>> f01fa629542c4cdc9d3ad7c81e37372911f38694
 
     public int GetState()
     {
@@ -138,10 +135,7 @@ public class PaveRotationScript : MonoBehaviour {
 
     public void Rotate(Vector3 direction, Vector3 rotation)
     {
-<<<<<<< HEAD
         LastMouvement = direction;
-=======
->>>>>>> f01fa629542c4cdc9d3ad7c81e37372911f38694
         CollisionNumber = 0;
         SetRotationPoint(direction);
         transform.RotateAround(RotationPoint, rotation, 90);
