@@ -110,14 +110,13 @@ public class PaveRotationScript : MonoBehaviour {
     {
         if(++FrameWithoutContact >= 3)
         {
-            //Rotate(LastMouvement, LastRotation);
             GetComponent<Rigidbody>().useGravity = true;
             GetComponent<Rigidbody>().isKinematic = false;
-            if (LastMouvement==Vector3.down)
-                GetComponent<Rigidbody>().AddTorque(Vector3.left*10);
-            else if (LastMouvement == Vector3.up)
+            if (LastMouvement == Vector3.back)
+                GetComponent<Rigidbody>().AddTorque(Vector3.left * 10);
+            else if (LastMouvement == Vector3.forward)
                 GetComponent<Rigidbody>().AddTorque(Vector3.right * 10);
-            else if(LastMouvement==Vector3.left)
+            else if(LastMouvement == Vector3.left)
                 GetComponent<Rigidbody>().AddTorque(Vector3.forward * 10);
             else if (LastMouvement == Vector3.right)
                 GetComponent<Rigidbody>().AddTorque(Vector3.back * 10);
