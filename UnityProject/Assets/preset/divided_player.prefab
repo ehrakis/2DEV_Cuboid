@@ -36,6 +36,7 @@ GameObject:
   - component: {fileID: 4312905070900724}
   - component: {fileID: 33475866100324586}
   - component: {fileID: 23789623975057126}
+  - component: {fileID: 114956351275229124}
   m_Layer: 0
   m_Name: default
   m_TagString: Untagged
@@ -79,7 +80,6 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -95,7 +95,6 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -111,3 +110,14 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1760849867267674}
   m_Mesh: {fileID: 4300000, guid: e2230bc6912f9a9448cd8de0e64b4a15, type: 3}
+--- !u!114 &114956351275229124
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1760849867267674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f6ad2bebe0f6734180c6eda724c1174, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

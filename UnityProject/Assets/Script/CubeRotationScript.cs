@@ -4,19 +4,76 @@ using UnityEngine;
 
 public class CubeRotationScript : MonoBehaviour {
 
-    public Transform parent;
+    private int CollisionNumber = 0;
+    private int DeplacementNumber = 0;
+    private bool AllowInput = true;
+    private int FrameWithoutContact = 0;
+    private Vector3 LastMouvement;
+
+    public int GetDeplcementNumber()
+    {
+        return DeplacementNumber;
+    }
+
+    public void Expulse()
+    {
+        if (++FrameWithoutContact >= 3)
+        {
+            GetComponent<Rigidbody>().useGravity = true;
+            GetComponent<Rigidbody>().isKinematic = false;
+            if (LastMouvement == Vector3.back)
+                GetComponent<Rigidbody>().AddTorque(Vector3.left * 10);
+            else if (LastMouvement == Vector3.forward)
+                GetComponent<Rigidbody>().AddTorque(Vector3.right * 10);
+            else if (LastMouvement == Vector3.left)
+                GetComponent<Rigidbody>().AddTorque(Vector3.forward * 10);
+            else if (LastMouvement == Vector3.right)
+                GetComponent<Rigidbody>().AddTorque(Vector3.back * 10);
+        }
+    }
+
+    public void TestStability()
+    {
+        if (CollisionNumber < 1)
+        {
+            AllowInput = false;
+            Expulse();
+        }
+        else
+        {
+            AllowInput = true;
+            FrameWithoutContact = 0;
+        }
+    }
+
+    private void IncreaseMouvementNumber()
+    {
+        DeplacementNumber++;
+    }
+
+    private Vector3 SetRotationPoint(Vector3 direction)
+    {
+        return new Vector3(transform.position.x, 0, transform.position.z) + (direction *  0.5f);
+    }
 
     public void Rotate(Vector3 direction, Vector3 rotation)
     {
-        parent.Translate(direction * 0.5f);
-        transform.parent = parent;
-        transform.RotateAround(parent.position, rotation, 90);
-        transform.parent = null;
-        parent.Translate(direction * 0.5f);
+        LastMouvement = direction;
+        CollisionNumber = 0;
+        transform.RotateAround(SetRotationPoint(direction), rotation, 90);
+        IncreaseMouvementNumber();
     }
 
-	// Use this for initialization
-	void Start () {
+    void OnCollisionEnter(Collision hit)
+    {
+        if (hit.gameObject.tag == "Tile")
+        {
+            CollisionNumber++;
+        }
+    }
+
+    // Use this for initialization
+    void Start () {
         //transform.parent = parent;
         transform.parent = null;
     }
@@ -39,5 +96,9 @@ public class CubeRotationScript : MonoBehaviour {
         {
             Rotate(Vector3.back, new Vector3(-1, 0, 0));
         }
+    }
+    private void LateUpdate()
+    {
+        TestStability();
     }
 }
