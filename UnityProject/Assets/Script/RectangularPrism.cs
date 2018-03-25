@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Assets.Script;
 
-public class PaveRotationScript : AbstractCubeMouvement
+public class RectangularPrism : AbstractCubeMouvement
 {
     
     /*
