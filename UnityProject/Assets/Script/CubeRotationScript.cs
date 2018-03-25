@@ -1,54 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Assets.Script;
 
-public class CubeRotationScript : MonoBehaviour {
+public class CubeRotationScript : AbstractCubeMouvement
+{
 
-    private int CollisionNumber = 0;
-    private int DeplacementNumber = 0;
-    private bool AllowInput = true;
-    private int FrameWithoutContact = 0;
-    private Vector3 LastMouvement;
-
-    public int GetDeplcementNumber()
-    {
-        return DeplacementNumber;
-    }
-
-    public void Expulse()
-    {
-        if (++FrameWithoutContact >= 3)
-        {
-            GetComponent<Rigidbody>().useGravity = true;
-            GetComponent<Rigidbody>().isKinematic = false;
-            if (LastMouvement == Vector3.back)
-                GetComponent<Rigidbody>().AddTorque(Vector3.left * 10);
-            else if (LastMouvement == Vector3.forward)
-                GetComponent<Rigidbody>().AddTorque(Vector3.right * 10);
-            else if (LastMouvement == Vector3.left)
-                GetComponent<Rigidbody>().AddTorque(Vector3.forward * 10);
-            else if (LastMouvement == Vector3.right)
-                GetComponent<Rigidbody>().AddTorque(Vector3.back * 10);
-        }
-    }
-
+    override
     public void TestStability()
     {
         if (CollisionNumber < 1)
         {
-            AllowInput = false;
+            DenyMouvement();
             Expulse();
         }
         else
         {
-            AllowInput = true;
+            AllowMouvement();
             FrameWithoutContact = 0;
         }
-    }
-
-    private void IncreaseMouvementNumber()
-    {
-        DeplacementNumber++;
     }
 
     private Vector3 SetRotationPoint(Vector3 direction)
@@ -56,6 +26,7 @@ public class CubeRotationScript : MonoBehaviour {
         return new Vector3(transform.position.x, 0, transform.position.z) + (direction *  0.5f);
     }
 
+    override
     public void Rotate(Vector3 direction, Vector3 rotation)
     {
         LastMouvement = direction;
@@ -80,22 +51,7 @@ public class CubeRotationScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            Rotate(Vector3.left, new Vector3(0, 0, 1));
-        }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            Rotate(Vector3.right, new Vector3(0, 0, -1));
-        }
-        else if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            Rotate(Vector3.forward, new Vector3(1, 0, 0));
-        }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            Rotate(Vector3.back, new Vector3(-1, 0, 0));
-        }
+        TestMouvement();
     }
     private void LateUpdate()
     {
