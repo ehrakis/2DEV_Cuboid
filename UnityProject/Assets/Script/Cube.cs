@@ -54,6 +54,17 @@ public class Cube : AbstractCubeMouvement
         }
     }
 
+    void ShowParticle(Cube ActivateCube)
+    {
+        GameObject CubeParticlePrefab = Resources.Load("CubeChangeParticle") as GameObject;
+        print(CubeParticlePrefab);
+        GameObject CubeParticleGO = Instantiate(CubeParticlePrefab);
+        ParticleSystem CubeParticle = CubeParticleGO.GetComponent<ParticleSystem>();
+        CubeParticle.Play();
+        CubeParticle.transform.position = ActivateCube.transform.position + new Vector3(0, 0.5f, 0);
+        Destroy(CubeParticleGO, 1f);
+    }
+
     public void ChangeCube()
     {
         Cube[] allCube = FindObjectsOfType<Cube>();
@@ -63,6 +74,8 @@ public class Cube : AbstractCubeMouvement
                 Input.ResetInputAxes();
                 part.Select();
                 DeSelect();
+                ShowParticle(part);
+                
             }
         }
     }
@@ -109,6 +122,10 @@ public class Cube : AbstractCubeMouvement
         if (transform.name == "Cube2")
         {
             DeSelect();
+        }
+        else
+        {
+            ShowParticle(this);
         }
     }
 	
