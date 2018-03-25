@@ -5,6 +5,7 @@ using Assets.Script;
 
 public class Cube : AbstractCubeMouvement
 {
+    private bool isSelected = true;
 
     override
     public void TestStability()
@@ -19,6 +20,16 @@ public class Cube : AbstractCubeMouvement
             AllowMouvement();
             FrameWithoutContact = 0;
         }
+    }
+
+    public void Select()
+    {
+        isSelected = true;
+    }
+
+    public void DeSelect()
+    {
+        isSelected = false;
     }
 
     private Vector3 SetRotationPoint(Vector3 direction)
@@ -43,10 +54,62 @@ public class Cube : AbstractCubeMouvement
         }
     }
 
+    public void ChangeCube()
+    {
+        Cube[] allCube = FindObjectsOfType<Cube>();
+        foreach(Cube part in allCube)
+        {
+            if (!part.Equals(this)){
+                Input.ResetInputAxes();
+                part.Select();
+                DeSelect();
+            }
+        }
+    }
+
+    override
+    public void TestMouvement()
+    {
+        if (isSelected)
+        {
+            if (Input.GetKeyDown(KeyCode.LeftArrow) && GetAllowInput())
+            {
+                Rotate(Vector3.left, new Vector3(0, 0, 1));
+            }
+            else if (Input.GetKeyDown(KeyCode.RightArrow) && GetAllowInput())
+            {
+                Rotate(Vector3.right, new Vector3(0, 0, -1));
+            }
+            else if (Input.GetKeyDown(KeyCode.UpArrow) && GetAllowInput())
+            {
+                Rotate(Vector3.forward, new Vector3(1, 0, 0));
+            }
+            else if (Input.GetKeyDown(KeyCode.DownArrow) && GetAllowInput())
+            {
+                Rotate(Vector3.back, new Vector3(-1, 0, 0));
+            }
+            else if(Input.GetKeyDown(KeyCode.Space) && GetAllowInput())
+            {
+                ChangeCube();
+            }
+        }
+        
+    }
+
     // Use this for initialization
-    void Start () {
+    void Start() {
         //transform.parent = parent;
         transform.parent = null;
+
+        /*
+         * The next part is use for testing 
+         * in the game cube 2 will be deselect
+         * when cube are make
+         */ 
+        if (transform.name == "Cube2")
+        {
+            DeSelect();
+        }
     }
 	
 	// Update is called once per frame

@@ -19,7 +19,7 @@ namespace Assets.Script
          */
         protected int CollisionNumber = 0;
 
-        private bool AllowInput = true;
+        public bool AllowInput = true;
         protected int FrameWithoutContact = 0;
         protected Vector3 LastMouvement;
 
@@ -68,7 +68,7 @@ namespace Assets.Script
         public abstract void TestStability();
         public abstract void Rotate(Vector3 direction, Vector3 rotation);
 
-        public void TestMouvement()
+        public virtual void TestMouvement()
         {
             if (Input.GetKeyDown(KeyCode.LeftArrow) && GetAllowInput())
             {
