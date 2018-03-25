@@ -11,7 +11,7 @@ namespace Assets.Script
         /*
         * The DeplacementNumber property is use to compute the score
         */
-        protected int DeplacementNumber = 0;
+        private int DeplacementNumber = 0;
 
         /*
          * The CollisionNumber property is use to know if the cube is
