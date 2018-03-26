@@ -35,6 +35,11 @@ namespace Assets.Script
             return IsFalling;
         }
 
+        public void OnFlat()
+        {
+            IsFalling = false;
+        }
+
         public int GetDeplcementNumber()
         {
             return DeplacementNumber;

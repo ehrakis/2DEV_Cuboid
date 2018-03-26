@@ -59,17 +59,39 @@ public class Cube : AbstractCubeMouvement
         IncreaseMouvementNumber();
     }
 
+
+
     void CubeFusion(Collision Cube2)
     {
         Vector3 difference = transform.position - Cube2.transform.position;
         if(difference.x < 0.1 && difference.x > -0.1)
         {
-            print("set to state 3");
+            Cube2.gameObject.SetActive(false);
+            gameObject.SetActive(false);
+            
+            GameObject CuboidPF = Resources.Load("Prefab/player") as GameObject;
+            GameObject CuboidGO = Instantiate(CuboidPF);
+            CuboidGO.transform.Rotate(new Vector3(90, 0, 0));
+            CuboidGO.transform.position = new Vector3(transform.position.x, 0.5f, (transform.position.z - transform.position.z > 0) ? transform.position.z + 0.5f : transform.position.z - 0.5f);
+            RectangularPrism CuboidScript = GameObject.FindGameObjectWithTag("Cuboid").GetComponent<RectangularPrism>();
+            CuboidScript.SetState(3);
+
+
+
+
 
         }
         else if(difference.z < 0.1 && difference.z > -0.1)
         {
-            print("set to state 2");
+            Cube2.gameObject.SetActive(false);
+            gameObject.SetActive(false);
+
+            GameObject CuboidPF = Resources.Load("Prefab/player") as GameObject;
+            GameObject CuboidGO = Instantiate(CuboidPF);
+            CuboidGO.transform.Rotate(new Vector3(0, 0, 90));
+            CuboidGO.transform.position = new Vector3((transform.position.x - transform.position.x > 0) ? transform.position.x - 0.5f : transform.position.x + 0.5f, 0.5f, transform.position.z);
+            RectangularPrism CuboidScript = GameObject.FindGameObjectWithTag("Cuboid").GetComponent<RectangularPrism>();
+            CuboidScript.SetState(2);
         }
     }
 

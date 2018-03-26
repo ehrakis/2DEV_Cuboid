@@ -23,9 +23,10 @@ GameObject:
   - component: {fileID: 23855379146335282}
   - component: {fileID: 114441629766720138}
   - component: {fileID: 54842574435281060}
+  - component: {fileID: 65305294592757216}
   m_Layer: 0
   m_Name: default
-  m_TagString: Untagged
+  m_TagString: Cuboid
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -128,6 +129,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &65305294592757216
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1693622375641930}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 4, z: 2.000001}
+  m_Center: {x: 0, y: 0, z: 0.00000047683716}
 --- !u!114 &114441629766720138
 MonoBehaviour:
   m_ObjectHideFlags: 1
