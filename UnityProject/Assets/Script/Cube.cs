@@ -24,7 +24,7 @@ public class Cube : AbstractCubeMouvement
 
     void ShowParticle()
     {
-        GameObject CubeParticlePrefab = Resources.Load("CubeChangeParticle") as GameObject;
+        GameObject CubeParticlePrefab = Resources.Load("Animation/CubeChangeParticle") as GameObject;
         print(CubeParticlePrefab);
         GameObject CubeParticleGO = Instantiate(CubeParticlePrefab);
         ParticleSystem CubeParticle = CubeParticleGO.GetComponent<ParticleSystem>();
