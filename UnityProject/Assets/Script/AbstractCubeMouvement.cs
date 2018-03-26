@@ -13,6 +13,8 @@ namespace Assets.Script
         */
         private int DeplacementNumber = 0;
 
+        private bool IsFalling = false;
+
         /*
          * The CollisionNumber property is use to know if the cube is
          * fully on a solid ground
@@ -22,6 +24,16 @@ namespace Assets.Script
         public bool AllowInput = true;
         protected int FrameWithoutContact = 0;
         protected Vector3 LastMouvement;
+
+        public void Fall()
+        {
+            IsFalling = true;
+        }
+
+        public bool GetIsFalling()
+        {
+            return IsFalling;
+        }
 
         public int GetDeplcementNumber()
         {
@@ -52,6 +64,7 @@ namespace Assets.Script
         {
             if (++FrameWithoutContact >= 3)
             {
+                Fall();
                 GetComponent<Rigidbody>().useGravity = true;
                 GetComponent<Rigidbody>().isKinematic = false;
                 if (LastMouvement == Vector3.back)

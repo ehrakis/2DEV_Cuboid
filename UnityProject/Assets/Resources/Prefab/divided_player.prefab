@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 23789623975057126}
   - component: {fileID: 114956351275229124}
   - component: {fileID: 54453676424960070}
-  - component: {fileID: 65270736890468776}
+  - component: {fileID: 135711182567386152}
   m_Layer: 0
   m_Name: default
   m_TagString: Untagged
@@ -82,6 +82,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -97,6 +98,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -127,18 +129,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &65270736890468776
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1760849867267674}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2, y: 2, z: 2.000001}
-  m_Center: {x: 0, y: 0, z: 0.00000047683716}
 --- !u!114 &114956351275229124
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -151,3 +141,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AllowInput: 1
+--- !u!135 &135711182567386152
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1760849867267674}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.0000005
+  m_Center: {x: 0, y: 0, z: 0}

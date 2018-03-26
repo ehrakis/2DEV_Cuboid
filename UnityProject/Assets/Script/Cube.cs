@@ -10,22 +10,23 @@ public class Cube : AbstractCubeMouvement
     override
     public void TestStability()
     {
-        if (CollisionNumber < 1)
-        {
-            DenyMouvement();
-            Expulse();
-        }
-        else
-        {
-            AllowMouvement();
-            FrameWithoutContact = 0;
+        if (!GetIsFalling()) {
+            if (CollisionNumber < 1)
+            {
+                DenyMouvement();
+                Expulse();
+            }
+            else
+            {
+                AllowMouvement();
+                FrameWithoutContact = 0;
+            }
         }
     }
 
     void ShowParticle()
     {
         GameObject CubeParticlePrefab = Resources.Load("Animation/CubeChangeParticle") as GameObject;
-        print(CubeParticlePrefab);
         GameObject CubeParticleGO = Instantiate(CubeParticlePrefab);
         ParticleSystem CubeParticle = CubeParticleGO.GetComponent<ParticleSystem>();
         CubeParticle.Play();
@@ -58,11 +59,29 @@ public class Cube : AbstractCubeMouvement
         IncreaseMouvementNumber();
     }
 
+    void CubeFusion(Collision Cube2)
+    {
+        Vector3 difference = transform.position - Cube2.transform.position;
+        if(difference.x < 0.1 && difference.x > -0.1)
+        {
+            print("set to state 3");
+
+        }
+        else if(difference.z < 0.1 && difference.z > -0.1)
+        {
+            print("set to state 2");
+        }
+    }
+
     void OnCollisionEnter(Collision hit)
     {
-        if (hit.gameObject.tag == "Tile")
+        if (hit.gameObject.tag.Equals("Tile"))
         {
             CollisionNumber++;
+        }
+        else if (hit.gameObject.tag.Equals("Cube") && isSelected)
+        {
+            CubeFusion(hit);
         }
     }
 

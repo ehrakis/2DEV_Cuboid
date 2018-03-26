@@ -55,7 +55,7 @@ public class RectangularPrism : AbstractCubeMouvement
         {
             SetState(3);
         }
-        else if((State == 2 && (direction == Vector3.right || direction == Vector3.left)) || (State == 3 && (direction == Vector3.forward || direction == Vector3.back)))
+        else if((State == 2 && (direction == Vector3.right || direction == Vector3.left))|| (State == 3 && (direction == Vector3.forward || direction == Vector3.back)))
         {
             SetState(1);
         }
@@ -86,25 +86,28 @@ public class RectangularPrism : AbstractCubeMouvement
     override
     public void TestStability()
     {
-        if (GetState() != 1 && CollisionNumber < 2)
+        if (!GetIsFalling())
         {
-            DenyMouvement();
-            Expulse();
-        }
-        else if(GetState() != 1 && CollisionNumber >= 2)
-        {
-            AllowMouvement();
-            FrameWithoutContact = 0;
-        }
-        else if (GetState() == 1 && CollisionNumber < 1)
-        {
-            DenyMouvement();
-            Expulse();
-        }
-        else if (GetState() == 1 && CollisionNumber >= 1)
-        {
-            AllowMouvement();
-            FrameWithoutContact = 0;
+            if (GetState() != 1 && CollisionNumber < 2)
+            {
+                DenyMouvement();
+                Expulse();
+            }
+            else if (GetState() != 1 && CollisionNumber == 2)
+            {
+                AllowMouvement();
+                FrameWithoutContact = 0;
+            }
+            else if (GetState() == 1 && CollisionNumber < 1)
+            {
+                DenyMouvement();
+                Expulse();
+            }
+            else if (GetState() == 1 && CollisionNumber == 1)
+            {
+                AllowMouvement();
+                FrameWithoutContact = 0;
+            }
         }
     }
     
