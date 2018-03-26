@@ -5,7 +5,7 @@ using Assets.Script;
 
 public class Cube : AbstractCubeMouvement
 {
-    private bool isSelected = true;
+    private bool isSelected = false;
 
     override
     public void TestStability()
@@ -22,9 +22,21 @@ public class Cube : AbstractCubeMouvement
         }
     }
 
+    void ShowParticle()
+    {
+        GameObject CubeParticlePrefab = Resources.Load("CubeChangeParticle") as GameObject;
+        print(CubeParticlePrefab);
+        GameObject CubeParticleGO = Instantiate(CubeParticlePrefab);
+        ParticleSystem CubeParticle = CubeParticleGO.GetComponent<ParticleSystem>();
+        CubeParticle.Play();
+        CubeParticle.transform.position = transform.position + new Vector3(0, 0.5f, 0);
+        Destroy(CubeParticleGO, 1f);
+    }
+
     public void Select()
     {
         isSelected = true;
+        ShowParticle();
     }
 
     public void DeSelect()
@@ -54,17 +66,6 @@ public class Cube : AbstractCubeMouvement
         }
     }
 
-    void ShowParticle(Cube ActivateCube)
-    {
-        GameObject CubeParticlePrefab = Resources.Load("CubeChangeParticle") as GameObject;
-        print(CubeParticlePrefab);
-        GameObject CubeParticleGO = Instantiate(CubeParticlePrefab);
-        ParticleSystem CubeParticle = CubeParticleGO.GetComponent<ParticleSystem>();
-        CubeParticle.Play();
-        CubeParticle.transform.position = ActivateCube.transform.position + new Vector3(0, 0.5f, 0);
-        Destroy(CubeParticleGO, 1f);
-    }
-
     public void ChangeCube()
     {
         Cube[] allCube = FindObjectsOfType<Cube>();
@@ -73,9 +74,7 @@ public class Cube : AbstractCubeMouvement
             if (!part.Equals(this)){
                 Input.ResetInputAxes();
                 part.Select();
-                DeSelect();
-                ShowParticle(part);
-                
+                DeSelect();                
             }
         }
     }
@@ -119,13 +118,9 @@ public class Cube : AbstractCubeMouvement
          * in the game cube 2 will be deselect
          * when cube are make
          */ 
-        if (transform.name == "Cube2")
+        if (transform.name == "Cube1")
         {
-            DeSelect();
-        }
-        else
-        {
-            ShowParticle(this);
+            Select();
         }
     }
 	
