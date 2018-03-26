@@ -55,7 +55,7 @@ public class RectangularPrism : AbstractCubeMouvement
         {
             SetState(3);
         }
-        else if((State == 2 && (direction == Vector3.right || direction == Vector3.left))|| (State == 3 && (direction == Vector3.forward || direction == Vector3.back)))
+        else if((State == 2 && (direction == Vector3.right || direction == Vector3.left)) || (State == 3 && (direction == Vector3.forward || direction == Vector3.back)))
         {
             SetState(1);
         }
@@ -91,7 +91,7 @@ public class RectangularPrism : AbstractCubeMouvement
             DenyMouvement();
             Expulse();
         }
-        else if(GetState() != 1 && CollisionNumber == 2)
+        else if(GetState() != 1 && CollisionNumber >= 2)
         {
             AllowMouvement();
             FrameWithoutContact = 0;
@@ -101,7 +101,7 @@ public class RectangularPrism : AbstractCubeMouvement
             DenyMouvement();
             Expulse();
         }
-        else if (GetState() == 1 && CollisionNumber == 1)
+        else if (GetState() == 1 && CollisionNumber >= 1)
         {
             AllowMouvement();
             FrameWithoutContact = 0;
