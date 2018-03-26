@@ -65,6 +65,11 @@ namespace Assets.Script
             DeplacementNumber++;
         }
 
+        public void SetDeplacementNumber(int number)
+        {
+            DeplacementNumber = number;
+        }
+
         public void Expulse()
         {
             if (++FrameWithoutContact >= 3)

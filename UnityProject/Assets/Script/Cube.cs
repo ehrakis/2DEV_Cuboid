@@ -72,9 +72,12 @@ public class Cube : AbstractCubeMouvement
             GameObject CuboidPF = Resources.Load("Prefab/player") as GameObject;
             GameObject CuboidGO = Instantiate(CuboidPF);
             CuboidGO.transform.Rotate(new Vector3(90, 0, 0));
-            CuboidGO.transform.position = new Vector3(transform.position.x, 0.5f, (transform.position.z - transform.position.z > 0) ? transform.position.z + 0.5f : transform.position.z - 0.5f);
+            CuboidGO.transform.position = new Vector3(transform.position.x, 0.5f, (transform.position.z - Cube2.transform.position.z > 0) ? transform.position.z - 0.5f : transform.position.z + 0.5f);
             RectangularPrism CuboidScript = GameObject.FindGameObjectWithTag("Cuboid").GetComponent<RectangularPrism>();
             CuboidScript.SetState(3);
+            CuboidScript.SetDeplacementNumber(GetDeplcementNumber()+Cube2.gameObject.GetComponent<Cube>().GetDeplcementNumber());
+            Destroy(Cube2.gameObject);
+            Destroy(gameObject);
 
 
 
@@ -89,9 +92,12 @@ public class Cube : AbstractCubeMouvement
             GameObject CuboidPF = Resources.Load("Prefab/player") as GameObject;
             GameObject CuboidGO = Instantiate(CuboidPF);
             CuboidGO.transform.Rotate(new Vector3(0, 0, 90));
-            CuboidGO.transform.position = new Vector3((transform.position.x - transform.position.x > 0) ? transform.position.x - 0.5f : transform.position.x + 0.5f, 0.5f, transform.position.z);
+            CuboidGO.transform.position = new Vector3((Cube2.transform.position.x - transform.position.x > 0) ? transform.position.x + 0.5f : transform.position.x - 0.5f, 0.5f, transform.position.z);
             RectangularPrism CuboidScript = GameObject.FindGameObjectWithTag("Cuboid").GetComponent<RectangularPrism>();
+            CuboidScript.SetDeplacementNumber(GetDeplcementNumber() + Cube2.gameObject.GetComponent<Cube>().GetDeplcementNumber());
             CuboidScript.SetState(2);
+            Destroy(Cube2.gameObject);
+            Destroy(gameObject);
         }
     }
 
@@ -152,13 +158,17 @@ public class Cube : AbstractCubeMouvement
     // Use this for initialization
     void Start() {
         //transform.parent = parent;
-        transform.parent = null;
-
+        if (transform.parent != null)
+        {
+            GameObject parent = transform.parent.gameObject;
+            transform.parent = null;
+            Destroy(parent);
+        }
         /*
          * The next part is use for testing 
          * in the game cube 2 will be deselect
          * when cube are make
-         */ 
+         */
         if (transform.name == "Cube1")
         {
             Select();
