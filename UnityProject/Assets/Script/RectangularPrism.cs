@@ -1,28 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Assets.Script;
 
-public class PaveRotationScript : MonoBehaviour {
-
-    private Vector3 RotationPoint;
+public class RectangularPrism : AbstractCubeMouvement
+{
+    
+    /*
+     *The State property make it easy to track the cube position 
+     *so more easy to know wich rotation to apply on it
+     * 
+     * State 1 correspond to the vertical state 
+     * State 2 correspond to the horizontal state on the x axis
+     * State 3 correspond to the horizontal state on the z axis
+     */
     private int State = 1;
-    private int DeplacementNumber = 0;
     private float xSize = 0;
     private float zSize = 0;
 
     public int GetState()
     {
         return State;
-    }
-
-    public int GetDeplcementNumber()
-    {
-        return DeplacementNumber;
-    }
-
-    private void IncreaseMouvementNumber()
-    {
-        DeplacementNumber++;
     }
 
     public void SetState(int value)
@@ -63,6 +61,9 @@ public class PaveRotationScript : MonoBehaviour {
         }
     }
 
+    /*
+     * The addvalue is use to turn the cube whatever it's state is
+     */ 
     private float ChooseAddValue(Vector3 direction)
     {
         if (State != 1)
@@ -82,17 +83,52 @@ public class PaveRotationScript : MonoBehaviour {
         }
     }
 
-    private void SetRotationPoint(Vector3 direction)
+    override
+    public void TestStability()
     {
-        RotationPoint = new Vector3(transform.position.x, 0, transform.position.z) + (direction * (ChooseAddValue(direction) + 0.5f));
+        if (GetState() != 1 && CollisionNumber < 2)
+        {
+            DenyMouvement();
+            Expulse();
+        }
+        else if(GetState() != 1 && CollisionNumber == 2)
+        {
+            AllowMouvement();
+            FrameWithoutContact = 0;
+        }
+        else if (GetState() == 1 && CollisionNumber < 1)
+        {
+            DenyMouvement();
+            Expulse();
+        }
+        else if (GetState() == 1 && CollisionNumber == 1)
+        {
+            AllowMouvement();
+            FrameWithoutContact = 0;
+        }
+    }
+    
+    private Vector3 SetRotationPoint(Vector3 direction)
+    {
+        return new Vector3(transform.position.x, 0, transform.position.z) + (direction * (ChooseAddValue(direction) + 0.5f));
     }
 
+    override
     public void Rotate(Vector3 direction, Vector3 rotation)
     {
-        SetRotationPoint(direction);
-        transform.RotateAround(RotationPoint, rotation, 90);
+        LastMouvement = direction;
+        CollisionNumber = 0;
+        transform.RotateAround(SetRotationPoint(direction), rotation, 90);
         changeState(direction);
         IncreaseMouvementNumber();
+    }
+
+    void OnCollisionEnter(Collision hit)
+    {
+        if (hit.gameObject.tag == "Tile")
+        {
+            CollisionNumber++;
+        }
     }
 
     // Use this for initialization
@@ -101,22 +137,12 @@ public class PaveRotationScript : MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	void Update () {
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            Rotate(Vector3.left, new Vector3(0, 0, 1));
-        }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            Rotate(Vector3.right, new Vector3(0, 0, -1));
-        }
-        else if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            Rotate(Vector3.forward, new Vector3(1, 0, 0));
-        }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            Rotate(Vector3.back, new Vector3(-1, 0, 0));
-        }
+    void Update () {
+        TestMouvement();
+    }
+
+    private void LateUpdate()
+    {
+        TestStability();
     }
 }
