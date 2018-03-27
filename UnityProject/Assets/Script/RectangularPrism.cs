@@ -61,6 +61,23 @@ public class RectangularPrism : AbstractCubeMouvement
         }
     }
 
+    public void Split(Vector3 firstCubePosition, Vector3 secondCubePosition)
+    {
+        gameObject.SetActive(false);
+        GameObject CubePF = Resources.Load("Prefab/divided_player") as GameObject;
+
+        GameObject CubeGO1 = Instantiate(CubePF);
+        CubeGO1.transform.position = firstCubePosition;
+
+        GameObject CubeGO2 = Instantiate(CubePF);
+        CubeGO2.transform.position = secondCubePosition;
+
+        Cube CubeScript = GameObject.FindGameObjectWithTag("Cube").GetComponent<Cube>();
+        CubeScript.SetDeplacementNumber(GetDeplcementNumber());
+        CubeScript.Select();
+        Destroy(gameObject);
+    }
+
     /*
      * The addvalue is use to turn the cube whatever it's state is
      */ 
@@ -86,25 +103,28 @@ public class RectangularPrism : AbstractCubeMouvement
     override
     public void TestStability()
     {
-        if (GetState() != 1 && CollisionNumber < 2)
+        if (!GetIsFalling())
         {
-            DenyMouvement();
-            Expulse();
-        }
-        else if(GetState() != 1 && CollisionNumber == 2)
-        {
-            AllowMouvement();
-            FrameWithoutContact = 0;
-        }
-        else if (GetState() == 1 && CollisionNumber < 1)
-        {
-            DenyMouvement();
-            Expulse();
-        }
-        else if (GetState() == 1 && CollisionNumber == 1)
-        {
-            AllowMouvement();
-            FrameWithoutContact = 0;
+            if (GetState() != 1 && CollisionNumber < 2)
+            {
+                DenyMouvement();
+                Expulse();
+            }
+            else if (GetState() != 1 && CollisionNumber == 2)
+            {
+                AllowMouvement();
+                FrameWithoutContact = 0;
+            }
+            else if (GetState() == 1 && CollisionNumber < 1)
+            {
+                DenyMouvement();
+                Expulse();
+            }
+            else if (GetState() == 1 && CollisionNumber == 1)
+            {
+                AllowMouvement();
+                FrameWithoutContact = 0;
+            }
         }
     }
     
@@ -133,12 +153,22 @@ public class RectangularPrism : AbstractCubeMouvement
 
     // Use this for initialization
     void Start () {
-        transform.parent = null;
+        if(transform.parent != null)
+        {
+            GameObject parent = transform.parent.gameObject;
+            transform.parent = null;
+            Destroy(parent);
+        }
+        
     }
 	
 	// Update is called once per frame
     void Update () {
         TestMouvement();
+        if (Input.GetKeyDown(KeyCode.S) && GetAllowInput())
+        {
+            Split(new Vector3(-3f,0.5f,0f), new Vector3(2f,0.5f,0f));
+        }
     }
 
     private void LateUpdate()
