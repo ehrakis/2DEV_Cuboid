@@ -10,22 +10,23 @@ public class Cube : AbstractCubeMouvement
     override
     public void TestStability()
     {
-        if (CollisionNumber < 1)
-        {
-            DenyMouvement();
-            Expulse();
-        }
-        else
-        {
-            AllowMouvement();
-            FrameWithoutContact = 0;
+        if (!GetIsFalling()) {
+            if (CollisionNumber < 1)
+            {
+                DenyMouvement();
+                Expulse();
+            }
+            else
+            {
+                AllowMouvement();
+                FrameWithoutContact = 0;
+            }
         }
     }
 
     void ShowParticle()
     {
         GameObject CubeParticlePrefab = Resources.Load("Animation/CubeChangeParticle") as GameObject;
-        print(CubeParticlePrefab);
         GameObject CubeParticleGO = Instantiate(CubeParticlePrefab);
         ParticleSystem CubeParticle = CubeParticleGO.GetComponent<ParticleSystem>();
         CubeParticle.Play();
@@ -58,11 +59,57 @@ public class Cube : AbstractCubeMouvement
         IncreaseMouvementNumber();
     }
 
+
+
+    void CubeFusion(Collision Cube2)
+    {
+        Vector3 difference = transform.position - Cube2.transform.position;
+        if(difference.x < 0.1 && difference.x > -0.1)
+        {
+            Cube2.gameObject.SetActive(false);
+            gameObject.SetActive(false);
+            
+            GameObject CuboidPF = Resources.Load("Prefab/player") as GameObject;
+            GameObject CuboidGO = Instantiate(CuboidPF);
+            CuboidGO.transform.Rotate(new Vector3(90, 0, 0));
+            CuboidGO.transform.position = new Vector3(transform.position.x, 0.5f, (transform.position.z - Cube2.transform.position.z > 0) ? transform.position.z - 0.5f : transform.position.z + 0.5f);
+            RectangularPrism CuboidScript = GameObject.FindGameObjectWithTag("Cuboid").GetComponent<RectangularPrism>();
+            CuboidScript.SetState(3);
+            CuboidScript.SetDeplacementNumber(GetDeplcementNumber()+Cube2.gameObject.GetComponent<Cube>().GetDeplcementNumber());
+            Destroy(Cube2.gameObject);
+            Destroy(gameObject);
+
+
+
+
+
+        }
+        else if(difference.z < 0.1 && difference.z > -0.1)
+        {
+            Cube2.gameObject.SetActive(false);
+            gameObject.SetActive(false);
+
+            GameObject CuboidPF = Resources.Load("Prefab/player") as GameObject;
+            GameObject CuboidGO = Instantiate(CuboidPF);
+            CuboidGO.transform.Rotate(new Vector3(0, 0, 90));
+            CuboidGO.transform.position = new Vector3((Cube2.transform.position.x - transform.position.x > 0) ? transform.position.x + 0.5f : transform.position.x - 0.5f, 0.5f, transform.position.z);
+            RectangularPrism CuboidScript = GameObject.FindGameObjectWithTag("Cuboid").GetComponent<RectangularPrism>();
+            CuboidScript.SetDeplacementNumber(GetDeplcementNumber() + Cube2.gameObject.GetComponent<Cube>().GetDeplcementNumber());
+            CuboidScript.SetState(2);
+            Destroy(Cube2.gameObject);
+            Destroy(gameObject);
+        }
+    }
+
     void OnCollisionEnter(Collision hit)
     {
-        if (hit.gameObject.tag == "Tile")
+        if (hit.gameObject.tag.Equals("Tile"))
         {
             CollisionNumber++;
+        }
+        else if (hit.gameObject.tag.Equals("Cube") && isSelected)
+        {
+            CubeFusion(hit);
         }
     }
 
@@ -111,13 +158,17 @@ public class Cube : AbstractCubeMouvement
     // Use this for initialization
     void Start() {
         //transform.parent = parent;
-        transform.parent = null;
-
+        if (transform.parent != null)
+        {
+            GameObject parent = transform.parent.gameObject;
+            transform.parent = null;
+            Destroy(parent);
+        }
         /*
          * The next part is use for testing 
          * in the game cube 2 will be deselect
          * when cube are make
-         */ 
+         */
         if (transform.name == "Cube1")
         {
             Select();
