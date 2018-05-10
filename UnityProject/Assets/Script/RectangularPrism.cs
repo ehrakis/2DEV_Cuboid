@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Assets.Script;
 
 public class RectangularPrism : AbstractCubeMouvement
@@ -73,7 +74,7 @@ public class RectangularPrism : AbstractCubeMouvement
         CubeGO2.transform.position = secondCubePosition;
 
         Cube CubeScript = GameObject.FindGameObjectWithTag("Cube").GetComponent<Cube>();
-        CubeScript.SetDeplacementNumber(GetDeplcementNumber());
+        //CubeScript.SetDeplacementNumber(GetDeplcementNumber());
         CubeScript.Select();
         Destroy(gameObject);
     }
@@ -126,6 +127,17 @@ public class RectangularPrism : AbstractCubeMouvement
                 FrameWithoutContact = 0;
             }
         }
+        else
+        {
+            if (transform.position.y < -10)
+            {
+                Scene scene = SceneManager.GetActiveScene();
+
+                DontDestroyOnLoad(GameObject.Find("InGameDisplay"));
+
+                SceneManager.LoadScene(scene.name);
+            }
+        }
     }
     
     private Vector3 SetRotationPoint(Vector3 direction)
@@ -165,10 +177,6 @@ public class RectangularPrism : AbstractCubeMouvement
 	// Update is called once per frame
     void Update () {
         TestMouvement();
-        if (Input.GetKeyDown(KeyCode.S) && GetAllowInput())
-        {
-            Split(new Vector3(-3f,0.5f,0f), new Vector3(2f,0.5f,0f));
-        }
     }
 
     private void LateUpdate()

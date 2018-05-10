@@ -11,8 +11,8 @@ namespace Assets.Script
         /*
         * The DeplacementNumber property is use to compute the score
         */
-        private int DeplacementNumber = 0;
 
+        MouvementsCounter MouvementCounterObject;
         private bool IsFalling = false;
 
         /*
@@ -40,11 +40,6 @@ namespace Assets.Script
             IsFalling = false;
         }
 
-        public int GetDeplcementNumber()
-        {
-            return DeplacementNumber;
-        }
-
         public void AllowMouvement()
         {
             AllowInput = true;
@@ -62,12 +57,11 @@ namespace Assets.Script
 
         public void IncreaseMouvementNumber()
         {
-            DeplacementNumber++;
-        }
-
-        public void SetDeplacementNumber(int number)
-        {
-            DeplacementNumber = number;
+            if (MouvementCounterObject == null)
+            {
+                MouvementCounterObject = GameObject.FindGameObjectWithTag("Counter").GetComponent<MouvementsCounter>();
+            }
+            MouvementCounterObject.IncreaseMouvements();
         }
 
         public void Expulse()

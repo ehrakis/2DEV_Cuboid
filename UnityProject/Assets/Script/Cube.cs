@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Assets.Script;
 
 public class Cube : AbstractCubeMouvement
@@ -20,6 +21,17 @@ public class Cube : AbstractCubeMouvement
             {
                 AllowMouvement();
                 FrameWithoutContact = 0;
+            }
+        }
+        else
+        {
+            if (transform.position.y < -10)
+            {
+                Scene scene = SceneManager.GetActiveScene();
+
+                DontDestroyOnLoad(GameObject.Find("InGameDisplay"));
+
+                SceneManager.LoadScene(scene.name);
             }
         }
     }
@@ -75,7 +87,7 @@ public class Cube : AbstractCubeMouvement
             CuboidGO.transform.position = new Vector3(transform.position.x, 0.5f, (transform.position.z - Cube2.transform.position.z > 0) ? transform.position.z - 0.5f : transform.position.z + 0.5f);
             RectangularPrism CuboidScript = GameObject.FindGameObjectWithTag("Cuboid").GetComponent<RectangularPrism>();
             CuboidScript.SetState(3);
-            CuboidScript.SetDeplacementNumber(GetDeplcementNumber()+Cube2.gameObject.GetComponent<Cube>().GetDeplcementNumber());
+            //CuboidScript.SetDeplacementNumber(GetDeplcementNumber()+Cube2.gameObject.GetComponent<Cube>().GetDeplcementNumber());
             Destroy(Cube2.gameObject);
             Destroy(gameObject);
 
@@ -94,7 +106,7 @@ public class Cube : AbstractCubeMouvement
             CuboidGO.transform.Rotate(new Vector3(0, 0, 90));
             CuboidGO.transform.position = new Vector3((Cube2.transform.position.x - transform.position.x > 0) ? transform.position.x + 0.5f : transform.position.x - 0.5f, 0.5f, transform.position.z);
             RectangularPrism CuboidScript = GameObject.FindGameObjectWithTag("Cuboid").GetComponent<RectangularPrism>();
-            CuboidScript.SetDeplacementNumber(GetDeplcementNumber() + Cube2.gameObject.GetComponent<Cube>().GetDeplcementNumber());
+            //CuboidScript.SetDeplacementNumber(GetDeplcementNumber() + Cube2.gameObject.GetComponent<Cube>().GetDeplcementNumber());
             CuboidScript.SetState(2);
             Destroy(Cube2.gameObject);
             Destroy(gameObject);
