@@ -9,6 +9,9 @@ TagManager:
   - Cuboid
   - Counter
   - GameManager
+  - LevelSettings
+  - Countdown
+  - PlayerSettings
   layers:
   - Default
   - TransparentFX
