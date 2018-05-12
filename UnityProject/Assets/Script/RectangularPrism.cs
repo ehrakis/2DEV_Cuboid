@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Assets.Script;
 
 public class RectangularPrism : AbstractCubeMouvement
@@ -80,7 +79,7 @@ public class RectangularPrism : AbstractCubeMouvement
     }
 
     /*
-     * The addvalue is use to turn the cube whatever it's state is
+     * The addvalue is use to turn the cube whatever its state is
      */ 
     private float ChooseAddValue(Vector3 direction)
     {
@@ -129,14 +128,7 @@ public class RectangularPrism : AbstractCubeMouvement
         }
         else
         {
-            if (transform.position.y < -10)
-            {
-                Scene scene = SceneManager.GetActiveScene();
-
-                DontDestroyOnLoad(GameObject.Find("InGameDisplay"));
-
-                SceneManager.LoadScene(scene.name);
-            }
+            Reload();
         }
     }
     
@@ -174,7 +166,6 @@ public class RectangularPrism : AbstractCubeMouvement
         
     }
 	
-	// Update is called once per frame
     void Update () {
         TestMouvement();
     }

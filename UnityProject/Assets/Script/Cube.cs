@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Assets.Script;
 
 public class Cube : AbstractCubeMouvement
@@ -25,14 +24,7 @@ public class Cube : AbstractCubeMouvement
         }
         else
         {
-            if (transform.position.y < -10)
-            {
-                Scene scene = SceneManager.GetActiveScene();
-
-                DontDestroyOnLoad(GameObject.Find("InGameDisplay"));
-
-                SceneManager.LoadScene(scene.name);
-            }
+            Reload();
         }
     }
 

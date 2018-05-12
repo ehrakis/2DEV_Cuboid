@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Assets.Script
 {
@@ -53,6 +54,18 @@ namespace Assets.Script
         public bool GetAllowInput()
         {
             return AllowInput;
+        }
+
+        public void Reload()
+        {
+            if (transform.position.y < -10)
+            {
+                Scene scene = SceneManager.GetActiveScene();
+                
+                DontDestroyOnLoad(GameObject.Find("InGameDisplay"));
+
+                SceneManager.LoadScene(scene.name);
+            }
         }
 
         public void IncreaseMouvementNumber()

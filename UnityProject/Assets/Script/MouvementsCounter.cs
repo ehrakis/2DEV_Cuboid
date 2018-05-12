@@ -21,6 +21,12 @@ public class MouvementsCounter : MonoBehaviour {
 
     private void Start()
     {
+        GameObject[] inGameDisplays = GameObject.FindGameObjectsWithTag("GameManager");
+        if(inGameDisplays.Length > 1 && mouvements == 0)
+        {
+            Destroy(gameObject.transform.parent.gameObject);
+        }
         MouvementsDisplay = GameObject.Find("MouvementsNumber").GetComponent<Text>();
+
     }
 }
