@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 23927028023878218}
   - component: {fileID: 114330668971554416}
   - component: {fileID: 54500356077328186}
-  - component: {fileID: 65957808075695198}
+  - component: {fileID: 135829472604689320}
   m_Layer: 0
   m_Name: divided_player
   m_TagString: Cube
@@ -53,7 +53,6 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -69,7 +68,6 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -100,18 +98,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &65957808075695198
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1393930168282824}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2, y: 2, z: 2.000001}
-  m_Center: {x: 0, y: 0, z: 0.00000047683716}
 --- !u!114 &114330668971554416
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -124,3 +110,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AllowInput: 1
+--- !u!135 &135829472604689320
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1393930168282824}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.0000005
+  m_Center: {x: 0, y: 0, z: 0}

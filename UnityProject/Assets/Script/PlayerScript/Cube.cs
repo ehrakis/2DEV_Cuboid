@@ -111,7 +111,7 @@ public class Cube : AbstractCubeMouvement
         {
             CollisionNumber++;
         }
-        else if (hit.gameObject.tag.Equals("Cube") && isSelected)
+        if (hit.gameObject.tag.Equals("Cube") && isSelected)
         {
             CubeFusion(hit);
         }
