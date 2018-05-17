@@ -21,9 +21,12 @@ GameObject:
   - component: {fileID: 4374377257584118}
   - component: {fileID: 33708317565293264}
   - component: {fileID: 23666011849587564}
+  - component: {fileID: 54483628289362510}
+  - component: {fileID: 65787650238134358}
+  - component: {fileID: 114524732099799596}
   m_Layer: 0
   m_Name: s_switch
-  m_TagString: Untagged
+  m_TagString: Tile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -83,3 +86,41 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1693835710540940}
   m_Mesh: {fileID: 4300000, guid: 65e7249aa561f7c4399e378640c5b451, type: 3}
+--- !u!54 &54483628289362510
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1693835710540940}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &65787650238134358
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1693835710540940}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.5, y: 0.4, z: 0.5}
+  m_Center: {x: 0, y: -0.05, z: 0.00000047683716}
+--- !u!114 &114524732099799596
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1693835710540940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f827c10d19fda5419d2c437e8d0aed9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
