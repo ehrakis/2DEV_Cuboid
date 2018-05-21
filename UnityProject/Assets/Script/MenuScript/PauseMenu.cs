@@ -9,6 +9,12 @@ public class PauseMenu : MonoBehaviour {
     private static bool gamePaused = false;
     public GameObject pauseMenuUI;
     private GameObject player;
+    private bool pauseEnable = true;
+
+    public void DisablePause()
+    {
+        pauseEnable = false;
+    }
 
     public static bool getGamePaused()
     {
@@ -55,7 +61,7 @@ public class PauseMenu : MonoBehaviour {
     }
 
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && pauseEnable)
         {
             if (getGamePaused())
             {

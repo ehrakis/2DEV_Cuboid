@@ -13,16 +13,21 @@ public class WinTile : MonoBehaviour {
             if (player.GetState() == 1)
             {
                 Scene scene = SceneManager.GetActiveScene();
+                if(scene.name == "Level8")
+                {
+                    SceneManager.LoadScene("End");
+                }
+                else
+                {
 
-                //scene.name = "Level1"
-                char levelnumber = scene.name[scene.name.Length - 1];
-                int levelNumberInt = (int)char.GetNumericValue(levelnumber) + 1;
-                string nextScene = "Level" + levelNumberInt;
-                
-                DontDestroyOnLoad(GameObject.Find("InGameDisplay"));
+                    char levelnumber = scene.name[scene.name.Length - 1];
+                    int levelNumberInt = (int)char.GetNumericValue(levelnumber) + 1;
+                    string nextScene = "Level" + levelNumberInt;
 
-                SceneManager.LoadScene(nextScene);
+                    DontDestroyOnLoad(GameObject.Find("InGameDisplay"));
 
+                    SceneManager.LoadScene(nextScene);
+                }
             }
         }
     }

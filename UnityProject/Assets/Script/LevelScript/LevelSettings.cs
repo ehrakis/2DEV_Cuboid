@@ -11,4 +11,6 @@ public class LevelSettings : MonoBehaviour {
     {
         (GameObject.FindWithTag("Counter").GetComponent(typeof(InGameUIManager)) as InGameUIManager).ChangeLevel();
     }
+
+    
 }

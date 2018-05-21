@@ -14,7 +14,7 @@ public class InGameUIManager : MonoBehaviour {
     private int totalTimeLeft = 0;
     private string currentLevel;
     private bool isTimerActive;
-
+    public bool gameEnd = false;
     
     public void SetTimerActive()
     {
@@ -33,17 +33,26 @@ public class InGameUIManager : MonoBehaviour {
         DisplaySocre();
     }
 
+    public int GetScore()
+    {
+        return mouvements - totalTimeLeft / 2;
+    }
+
     public void ChangeLevel()
     {
-        if (isTimerActive)
+        if (currentLevel == null || currentLevel != SceneManager.GetActiveScene().name)
         {
-            if (currentLevel == null || currentLevel != SceneManager.GetActiveScene().name)
-            {
-                currentLevel = SceneManager.GetActiveScene().name;
-                totalTimeLeft += (int)Mathf.Round(timeLeft);
-                timeLeft = (GameObject.FindWithTag("LevelSettings").GetComponent(typeof(LevelSettings)) as LevelSettings).CountdownTime;
-            }
+            currentLevel = SceneManager.GetActiveScene().name;
+            totalTimeLeft += (int)Mathf.Round(timeLeft);
+            timeLeft = (GameObject.FindWithTag("LevelSettings").GetComponent(typeof(LevelSettings)) as LevelSettings).CountdownTime;
         }
+    }
+
+    public void EndGame()
+    {
+        gameEnd = true;
+        totalTimeLeft += (int)Mathf.Round(timeLeft);
+        gameObject.GetComponent<PauseMenu>().DisablePause();
     }
 
     void Start()
@@ -53,20 +62,28 @@ public class InGameUIManager : MonoBehaviour {
         {
             Destroy(gameObject.transform.parent.gameObject);
         }
-        isTimerActive = (GameObject.FindWithTag("PlayerSettings").GetComponent(typeof(PlayerSettings)) as PlayerSettings).timerOn;
-        if (!isTimerActive)
+        if(SceneManager.GetActiveScene().name != "End")
         {
-            GameObject.FindWithTag("Countdown").SetActive(false);
+            isTimerActive = (GameObject.FindWithTag("PlayerSettings").GetComponent(typeof(PlayerSettings)) as PlayerSettings).timerOn;
+            if (!isTimerActive)
+            {
+                GameObject.FindWithTag("Countdown").SetActive(false);
+            }
+            else
+            {
+                ChangeLevel();
+            }
         }
         else
         {
-            ChangeLevel();
+            EndGame();
         }
+        
     }
 
     void Update()
     {
-        if (isTimerActive)
+        if (isTimerActive && !gameEnd)
         {
             timeLeft -= Time.deltaTime;
             timeDisplay.text = "Time Left : " + Mathf.Round(timeLeft);

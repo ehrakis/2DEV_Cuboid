@@ -13,6 +13,11 @@ public class MainMenu : MonoBehaviour {
         nextScene();
     }
 
+    public void ScoreBoard()
+    {
+        SceneManager.LoadScene("ScoreMenu");
+    }
+
     public  void PlayWithTimer()
     {
         timerOn = true;
