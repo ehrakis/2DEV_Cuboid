@@ -35,16 +35,19 @@ public class InGameUIManager : MonoBehaviour {
 
     public int GetScore()
     {
-        return mouvements - totalTimeLeft / 2;
+        return mouvements - (totalTimeLeft / 2);
     }
 
     public void ChangeLevel()
     {
-        if (currentLevel == null || currentLevel != SceneManager.GetActiveScene().name)
+        if (isTimerActive)
         {
-            currentLevel = SceneManager.GetActiveScene().name;
-            totalTimeLeft += (int)Mathf.Round(timeLeft);
-            timeLeft = (GameObject.FindWithTag("LevelSettings").GetComponent(typeof(LevelSettings)) as LevelSettings).CountdownTime;
+            if (currentLevel == null || currentLevel != SceneManager.GetActiveScene().name)
+            {
+                currentLevel = SceneManager.GetActiveScene().name;
+                totalTimeLeft += (int)Mathf.Round(timeLeft);
+                timeLeft = (GameObject.FindWithTag("LevelSettings").GetComponent(typeof(LevelSettings)) as LevelSettings).CountdownTime;
+            }
         }
     }
 
