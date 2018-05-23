@@ -26,19 +26,21 @@ namespace Assets.Script
         protected int FrameWithoutContact = 0;
         protected Vector3 LastMouvement;
 
-        public void Fall()
+        public void Fall(string currentPlayerTag)
         {
-            IsFalling = true;
+            foreach (GameObject player in GameObject.FindGameObjectsWithTag(currentPlayerTag))
+            {
+                player.GetComponent<AbstractCubeMouvement>().SetIsFalling(true);
+            }
         }
 
+        private void SetIsFalling(bool value)
+        {
+            IsFalling = value;
+        }
         public bool GetIsFalling()
         {
             return IsFalling;
-        }
-
-        public void OnFlat()
-        {
-            IsFalling = false;
         }
 
         public void AllowMouvement()
@@ -77,11 +79,11 @@ namespace Assets.Script
             MouvementCounterObject.IncreaseMouvements();
         }
 
-        public void Expulse()
+        public void Expulse(string tag)
         {
             if (++FrameWithoutContact >= 3)
             {
-                Fall();
+                Fall(tag);
                 GetComponent<Rigidbody>().useGravity = true;
                 GetComponent<Rigidbody>().isKinematic = false;
                 if (LastMouvement == Vector3.back)

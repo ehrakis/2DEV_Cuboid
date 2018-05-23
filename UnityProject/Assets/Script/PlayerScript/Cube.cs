@@ -6,15 +6,16 @@ using Assets.Script;
 public class Cube : AbstractCubeMouvement
 {
     private bool isSelected = false;
+    private GameObject onTile;
 
     override
     public void TestStability()
     {
         if (!GetIsFalling()) {
-            if (CollisionNumber < 1)
+            if (CollisionNumber < 1 || !onTile.activeInHierarchy)
             {
                 DenyMouvement();
-                Expulse();
+                Expulse(gameObject.tag);
             }
             else
             {
@@ -110,6 +111,7 @@ public class Cube : AbstractCubeMouvement
         if (hit.gameObject.tag.Equals("Tile"))
         {
             CollisionNumber++;
+            onTile = hit.gameObject;
         }
         if (hit.gameObject.tag.Equals("Cube") && isSelected)
         {
@@ -133,7 +135,7 @@ public class Cube : AbstractCubeMouvement
     override
     public void TestMouvement()
     {
-        if (isSelected)
+        if (isSelected && !GetIsFalling())
         {
             if (Input.GetKeyDown(KeyCode.LeftArrow) && GetAllowInput())
             {

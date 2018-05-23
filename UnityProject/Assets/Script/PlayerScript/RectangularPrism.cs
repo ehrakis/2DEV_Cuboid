@@ -108,7 +108,7 @@ public class RectangularPrism : AbstractCubeMouvement
             if (GetState() != 1 && CollisionNumber < 2)
             {
                 DenyMouvement();
-                Expulse();
+                Expulse(gameObject.tag);
             }
             else if (GetState() != 1 && CollisionNumber == 2)
             {
@@ -118,7 +118,7 @@ public class RectangularPrism : AbstractCubeMouvement
             else if (GetState() == 1 && CollisionNumber < 1)
             {
                 DenyMouvement();
-                Expulse();
+                Expulse(gameObject.tag);
             }
             else if (GetState() == 1 && CollisionNumber == 1)
             {

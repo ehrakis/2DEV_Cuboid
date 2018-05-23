@@ -17,7 +17,7 @@ public class WoodTile : MonoBehaviour {
                 GetComponent<Rigidbody>().isKinematic = false;
                 other.gameObject.GetComponent<Rigidbody>().useGravity = true;
                 player.DenyMouvement();
-                player.Fall();
+                player.Fall(player.tag);
             }
         }
     }
