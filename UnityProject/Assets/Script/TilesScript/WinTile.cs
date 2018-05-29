@@ -11,9 +11,9 @@ public class WinTile : MonoBehaviour {
         {
             RectangularPrism player = other.gameObject.GetComponent<RectangularPrism>();
             if (player.GetState() == 1)
-            {
-                Scene scene = SceneManager.GetActiveScene();
-                if(scene.name == "Level8")
+	    {
+		    Scene scene = SceneManager.GetActiveScene();
+                if(scene.name == "Level10")
                 {
                     SceneManager.LoadScene("End");
                 }
